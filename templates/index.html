@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Checker</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h2>🔐 Password Strength Checker</h2>
+        <form method="POST">
+
+            <div class="password-wrapper">
+                <input type="password" name="password" id="password" placeholder="Enter password" required>
+                <span class="toggle-eye" onclick="toggleVisibility('password', this)">👁️</span>
+            </div>
+
+            <div class="password-wrapper">
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" required>
+                <span class="toggle-eye" onclick="toggleVisibility('confirm_password', this)">👁️</span>
+            </div>
+
+            <!-- <label><input type="checkbox" onclick="togglePassword()"> Show Password</label> -->
+
+            <select name="threat_level">
+                <option value="1e6">Basic (1M/sec)</option>
+                <option value="1e9" selected>Pro Attacker (1B/sec)</option>
+                <option value="1e12">Nation-State (1T/sec)</option>
+            </select>
+
+            <button type="submit">Check Password</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <p><strong>{{ result }}</strong></p>
+
+            {% if not password_match %}
+                <p style="color: red;">❌ Password is weak or unsafe. Please improve it.</p>
+            {% endif %}
+
+            {% if brute_time %}
+                <p>🧮 Estimated Time to guess your password: <strong>{{ brute_time }}</strong></p>
+            {% endif %}
+
+            {% if found %}
+                <p style="color: black;">⚠️ Found in common passwords list! Try something more unique</p>
+            {% else %}
+                <p style="color: black;">✅ This password is not found in common password lists.</p>
+            {% endif %}
+
+            {% if errors %}
+                <p><strong>🔑 To make your password strong, use:</strong></p>
+                <ul style="color: black; margin-left: 20px;">
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>
