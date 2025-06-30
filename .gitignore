@@ -1,43 +1,21 @@
-# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
-# Virtual environment
 venv/
 env/
-
-# Render & deployment artifacts
 *.log
 log.txt
-
-# OS system files
 .DS_Store
 Thumbs.db
-
-# Editor directories and files
 .vscode/
 .idea/
 *.sublime-project
 *.sublime-workspace
-
-# Jupyter Notebook checkpoints
 .ipynb_checkpoints
-
-# Python environments
 *.env
 .env
-
-# VS Code settings
 *.code-workspace
-
-# Git temporary files
 *.swp
 *.swo
-
-# Cache & backups
 *.bak
 *.tmp
-
-# If using Git LFS (Large Files)
-*.pkl filter=lfs diff=lfs merge=lfs -text
