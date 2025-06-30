@@ -1,13 +1,8 @@
 from flask import Flask, render_template, request
-import re, math, pickle, datetime
+import re, math, pickle
 
 app = Flask(__name__)
 
-# # Load wordlist
-# with open("rockyou_1.pkl", "rb") as f:
-#     wordlist_1 = pickle.load(f)
-# with open("rockyou_2.pkl", "rb") as f:
-#     wordlist_2 = pickle.load(f)
 def is_in_wordlist(password):
     for i in range(1, 5):
         try:
@@ -60,11 +55,6 @@ def password_strength(password, guesses_per_second):
 
     return len(errors) == 0, brute_time, errors
 
-def log_result(is_strong, found_in_list):
-    with open("log.txt", "a") as log_file:
-        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        log_file.write(f"[{now}] Strong: {is_strong}, InWordlist: {found_in_list}\n")
-
 @app.route("/", methods=["GET", "POST"])
 def index():
     result = None
@@ -87,9 +77,7 @@ def index():
         else:
             result = "✅ Password is strong and safe."
 
-        log_result(is_strong, found_in_wordlist)
-
-    return render_template("index.html", result=result, brute_time=brute_time,errors=errors, found=found_in_wordlist, password_match=password_match)
+    return render_template("index.html", result=result, brute_time=brute_time, errors=errors, found=found_in_wordlist, password_match=password_match)
 
 if __name__ == "__main__":
     app.run(debug=True)
