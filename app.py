@@ -3,11 +3,21 @@ import re, math, pickle, datetime
 
 app = Flask(__name__)
 
-# Load wordlist
-with open("rockyou_1.pkl", "rb") as f:
-    wordlist_1 = pickle.load(f)
-with open("rockyou_2.pkl", "rb") as f:
-    wordlist_2 = pickle.load(f)
+# # Load wordlist
+# with open("rockyou_1.pkl", "rb") as f:
+#     wordlist_1 = pickle.load(f)
+# with open("rockyou_2.pkl", "rb") as f:
+#     wordlist_2 = pickle.load(f)
+def is_in_wordlist(password):
+    for i in range(1, 5):
+        try:
+            with open(f"rockyou_{i}.pkl", "rb") as f:
+                chunk = pickle.load(f)
+                if password in chunk:
+                    return True
+        except FileNotFoundError:
+            print(f"rockyou_{i}.pkl not found.")
+    return False
 
 def password_strength(password, guesses_per_second):
     length_error = len(password) < 8
@@ -69,7 +79,7 @@ def index():
         level = request.form.get("threat_level") or "1e9"
 
         is_strong, brute_time, errors = password_strength(password, level)
-        found_in_wordlist = password in wordlist_1 or password in wordlist_2
+        found_in_wordlist = is_in_wordlist(password)
         password_match = password == confirm
 
         if not is_strong or found_in_wordlist or not password_match:
