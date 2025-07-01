@@ -4,7 +4,7 @@ import re, math, pickle
 app = Flask(__name__)
 
 def is_in_wordlist(password):
-    for i in range(1, 5):
+    for i in range(1, 4):
         try:
             with open(f"rockyou_{i}.pkl", "rb") as f:
                 chunk = pickle.load(f)
